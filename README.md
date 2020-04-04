@@ -1,2 +1,4 @@
-# RedisEmbed
-Migrate EF to Redis Embed &amp; Simple CRUD as Storage 
+## Redis Embed
+
+
+Read docs & demo files
