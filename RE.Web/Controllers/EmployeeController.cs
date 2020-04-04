@@ -22,11 +22,9 @@ namespace RE.Web.Controllers
             _proxy = proxy;
         }
 
-        public IActionResult Index(int? page)
+        public IActionResult Index()
         {
-            var pageIndex = page ?? 1;
-            var pageSize = 25;
-            var model = _proxy.Pager((pageIndex - 1) * pageSize, pageSize);
+            var model = _proxy.GetAll();
 
             return View(model);
         }

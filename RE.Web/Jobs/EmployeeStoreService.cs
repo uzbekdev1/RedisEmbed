@@ -16,7 +16,7 @@ namespace RE.Web.Jobs
     public class EmployeeStoreService : BackgroundService
     {
         private readonly ILogger _logger;
-        public IServiceScopeFactory _serviceScopeFactory;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly RedisProxy<Employee> _proxy;
 
         public EmployeeStoreService(RedisProxy<Employee> proxy,
@@ -28,7 +28,7 @@ namespace RE.Web.Jobs
             _proxy = proxy;
         }
 
-        protected async override Task ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Cache Hosted Service is starting.");
 
@@ -39,12 +39,12 @@ namespace RE.Web.Jobs
                     using (var scope = _serviceScopeFactory.CreateScope())
                     {
                         var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
-                        var items = await context.Employees.Where(w => w.IsDeleted != true).ToArrayAsync();
+                        var items = await context.Employees.Where(w => w.IsDeleted != true).ToArrayAsync(cancellationToken: cancellationToken);
 
                         _proxy.StoreAll(items);
                     }
 
-                    await Task.Delay(24 * 3600 * 1000);
+                    await Task.Delay(24 * 3600 * 1000, cancellationToken);
                 }
                 catch (Exception ex)
                 {

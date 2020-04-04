@@ -28,7 +28,7 @@ namespace RE.Client.Core
             _client.StoreAll(items);
         }
 
-        public IEnumerable<T> Pager(int offset, int limit)
+        public IEnumerable<T> GetAll()
         {
             return _client.GetAll();
         }
