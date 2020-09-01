@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Employee>
+
+@{
+    ViewData["Title"] = "Employees";
+}
+<h2>
+    @ViewData["Title"]
+</h2>
+<p>
+    <a asp-action="Form" class="btn btn-primary">Create</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SalaryExpectation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SalaryExpectation)
+                </td>
+                <td>
+                    <a asp-action="Form" class="btn btn-info" asp-route-id="@item.Id">Edit</a>
+                    <form asp-action="Delete" asp-route-id="@item.Id" autocomplete="off">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Want to delete?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
